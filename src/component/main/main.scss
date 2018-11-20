@@ -1,0 +1,26 @@
+.main{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    header{
+        display: flex;
+        height: 50px;
+        background-color: #252a2f;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+        color: white;
+        .right{
+            margin-right: 30px;
+            display: flex;
+            nav{
+                span{
+                    margin-right: 20px
+                }
+            }
+            a{
+                color: white
+            }
+        }
+    }
+}

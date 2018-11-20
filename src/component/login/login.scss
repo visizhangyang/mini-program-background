@@ -6,6 +6,7 @@
     h1{
         text-align: center;
         color: #ccc;
+        margin-top: 50px
     }
     .login{
         border: 1px solid #ccc;
@@ -18,5 +19,12 @@
         height: 200px;
         margin: 50px auto;
         margin-bottom: 0
+    }
+    .ant-alert{
+        position: fixed;
+        width: 300px;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%)
     }
 }
