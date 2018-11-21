@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { Menu, Dropdown, Icon } from 'antd';
-import {withRouter} from 'react-router'
+import {withRouter,Switch} from 'react-router'
+import {Link,Route} from 'react-router-dom'
 import {connect} from 'react-redux'
+import User from '../user/user'
+import Appoint from '../appoint/appoint'
+import Love from '../love/love'
+import Message from '../message/message'
 import './main.scss'
 class Main extends Component{
     componentDidMount (){
@@ -28,10 +33,10 @@ class Main extends Component{
                     </div>
                     <div className='right'>
                     <nav>
-                        <span>用户</span>
-                        <span>表白墙</span>
-                        <span>邀约</span>
-                        <span>信息</span>
+                        <Link to={`${this.props.match.url}/user`}>用户</Link>
+                        <Link to={`${this.props.match.url}/love`}>表白墙</Link>
+                        <Link to={`${this.props.match.url}/appoint`}>邀约</Link>
+                        <Link to={`${this.props.match.url}/message`}>信息</Link>
                     </nav>
                     <Dropdown overlay={menu}>
                         <a className="ant-dropdown-link" href="#">
@@ -40,6 +45,12 @@ class Main extends Component{
                     </Dropdown>
                     </div>
                 </header>
+                <div className='mainBody'>
+                        <Route path={`${this.props.match.path}/user`} render={()=><User/>} exact strict></Route>
+                        <Route path={`${this.props.match.path}/love`} render={()=><Love/>} exact strict></Route>
+                        <Route path={`${this.props.match.path}/appoint`} render={()=><Appoint/>} exact strict></Route>
+                        <Route path={`${this.props.match.path}/message`} render={()=><Message/>} exact strict></Route>
+                </div>
             </div>
         )
     }

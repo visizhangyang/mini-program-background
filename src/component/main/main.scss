@@ -14,7 +14,7 @@
             margin-right: 30px;
             display: flex;
             nav{
-                span{
+                a{
                     margin-right: 20px
                 }
             }
@@ -22,5 +22,8 @@
                 color: white
             }
         }
+    }
+    .mainBody{
+        height: calc(100% - 50px)
     }
 }

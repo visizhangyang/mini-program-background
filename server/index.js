@@ -27,5 +27,22 @@ router.post('/mp/login',async (ctx)=>{
          ctx.body=2
      }
 })
+router.get('/mp/getUser',async (ctx)=>{
+    var manager=await spanner.query({tableName:'user',fields:['userName','role','level']})
+    var user=await spanner.query({tableName:'userInfo'})
+    ctx.body={manager,user}
+})
+router.get('/mp/appoint',async (ctx)=>{
+    var appoint=await spanner.query({tableName:'appoint'})
+    ctx.body=appoint
+})
+router.get('/mp/love',async (ctx)=>{
+    var appoint=await spanner.query({tableName:'love'})
+    ctx.body=appoint
+})
+router.get('/mp/mes',async (ctx)=>{
+    var appoint=await spanner.query({tableName:'mes'})
+    ctx.body=appoint
+})
 app.use(router.routes()).use(router.allowedMethods())
 app.listen(5000)
