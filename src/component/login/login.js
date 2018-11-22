@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Input,Button,Alert} from 'antd'
 import {withRouter} from 'react-router'
 import {connect} from 'react-redux'
-import {login} from '../../store/action'
+import {login,setUser} from '../../store/action'
 import axios from 'axios'
 import './login.scss';
 class Login extends Component {
@@ -20,12 +20,13 @@ class Login extends Component {
         this.showAlert=this.showAlert.bind(this)
         this.hideAlert=this.hideAlert.bind(this)
     }
-    login(){
+    login(e){
+        e.stopPropagation()
         let that=this;
         let userName=this.state.userName;
         let password=this.state.password;
         if(!userName.trim()||!password.trim()){
-            alert('用户名或密码不可为空')
+            this.showAlert('用户名或密码不可为空')
             return
         }
         let fd=new FormData();
@@ -40,12 +41,11 @@ class Login extends Component {
                 case 1:
                 that.showAlert('密码错误')
                 return;
-                case 2:
-                that.props.login(true)
-                that.props.history.push('/main')
-                return;
                 default:
-                return 
+                that.props.login(true)
+                that.props.setUser(res.data)
+                that.props.history.push('/main/user')
+                return;
             }
         }) 
     }
@@ -78,7 +78,7 @@ class Login extends Component {
             <div className='login'>
                 <Input addonBefore="用户名"  onChange={this.userNameChange}></Input>
                 <Input addonBefore="密码"  onChange={this.passwordChange} type='password'></Input>
-                <Button type='primary' block onClick={this.login}>登陆</Button>
+                <Button type='primary' block onClick={(e)=>this.login(e)}>登陆</Button>
             </div>
             
             {this.state.showAlert?<Alert message='Error' description={this.state.description} type='error' showIcon></Alert>:null}
@@ -89,4 +89,4 @@ class Login extends Component {
 function select(state){
     return {}
 }
-export default connect(select,{login})(withRouter(Login))
+export default connect(select,{login,setUser})(withRouter(Login))

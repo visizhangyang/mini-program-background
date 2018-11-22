@@ -1,25 +1,36 @@
 import React, { Component } from 'react';
 import { Menu, Dropdown, Icon } from 'antd';
-import {withRouter,Switch} from 'react-router'
+import {withRouter} from 'react-router'
 import {Link,Route} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {logout} from '../../store/action'
 import User from '../user/user'
 import Appoint from '../appoint/appoint'
 import Love from '../love/love'
 import Message from '../message/message'
 import './main.scss'
 class Main extends Component{
+    constructor(){
+        super()
+        this.logout=this.logout.bind(this)
+    }
     componentDidMount (){
       /* if(!this.props.isLogin){
           this.props.history.push('/')
       } */
     }
-    
+    logout(){
+        this.props.logout(false);
+        this.props.history.push('/')
+    }
     render(){
         const menu = (
             <Menu>
               <Menu.Item>
-                <span>退出</span>
+                <span>{this.props.user.role}</span>
+              </Menu.Item>
+              <Menu.Item>
+                <span onClick={this.logout}>退出</span>
               </Menu.Item>
               
             </Menu>
@@ -40,7 +51,7 @@ class Main extends Component{
                     </nav>
                     <Dropdown overlay={menu}>
                         <a className="ant-dropdown-link" href="#">
-                        小食蚁螂<Icon type="down" />
+                        {this.props.user.userName}<Icon type="down" />
                         </a>
                     </Dropdown>
                     </div>
@@ -57,9 +68,10 @@ class Main extends Component{
 }
 function select(state){
     return {
-        isLogin:state.isLogin
+        isLogin:state.isLogin,
+        user:state.userInfo
     }
 }
-export default connect(select)(withRouter(Main))
+export default connect(select,{logout})(withRouter(Main))
 
 

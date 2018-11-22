@@ -8,4 +8,11 @@ function isLogin(state=false,action){
         return state
     }
 }
-export default combineReducers({isLogin})
+function userInfo(state={},action){
+    if(action.type===actions.SET_USER){
+        return action.user
+    }else{
+        return state
+    }
+}
+export default combineReducers({isLogin,userInfo})

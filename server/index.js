@@ -24,7 +24,10 @@ router.post('/mp/login',async (ctx)=>{
      }else if(res[0].password!=ctx.request.body.password){
          ctx.body=1
      }else{
-         ctx.body=2
+         var {id,userName,role,level}=res[0]
+         ctx.body={
+             id,userName,role,level
+         }
      }
 })
 router.get('/mp/getUser',async (ctx)=>{
