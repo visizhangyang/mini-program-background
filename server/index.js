@@ -29,23 +29,45 @@ router.post('/mp/login',async (ctx)=>{
              id,userName,role,level
          }
      }
-})
+})//登陆
 router.get('/mp/getUser',async (ctx)=>{
-    var manager=await spanner.query({tableName:'user',fields:['userName','role','level']})
+    var manager=await spanner.query({tableName:'user',fields:['userName','role','level','id']})
     var user=await spanner.query({tableName:'userInfo'})
     ctx.body={manager,user}
-})
+})//获取用户
 router.get('/mp/appoint',async (ctx)=>{
     var appoint=await spanner.query({tableName:'appoint'})
     ctx.body=appoint
-})
+})//获取邀约
 router.get('/mp/love',async (ctx)=>{
     var appoint=await spanner.query({tableName:'love'})
     ctx.body=appoint
-})
+})//获取表白
 router.get('/mp/mes',async (ctx)=>{
     var appoint=await spanner.query({tableName:'mes'})
     ctx.body=appoint
+})//获取信息
+router.post('/mp/modifyLevel',async (ctx)=>{
+    var res=await spanner.update({
+        tableName:'user',
+        fields:['level'],
+        values:[ctx.request.body.level],
+        rules:`where id=${ctx.request.body.id}`})
+    ctx.body=res;
+})//修改管理员权限
+router.post('/mp/deleteAdmin',async (ctx)=>{
+    var res=await spanner.delete({
+        tableName:'user',
+        rules:`where id=${ctx.request.body.id}`
+    })
+    ctx.body=res
+})
+router.post('/mp/deleteUser',async (ctx)=>{
+    var res=await spanner.delete({
+        tableName:'userInfo',
+        rules:`where openid='${ctx.request.body.openid}'`
+    })
+    ctx.body=res
 })
 app.use(router.routes()).use(router.allowedMethods())
 app.listen(5000)

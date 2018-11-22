@@ -1,74 +1,93 @@
 import React, { Component } from 'react';
-import {Avatar,Button,Divider,Table,Modal} from 'antd'
-const confirm = Modal.confirm;
-function showConfirm() {
-    confirm({
-      title: '确认删除此用户吗',
-      content: '你将要删除选择的用户，请谨慎操作',
-      okText:"确认",
-      cancelText:"取消",
-      onOk() {
-        console.log('OK');
-      },
-      onCancel() {
-        console.log('Cancel');
-      },
-    });
-  }
-const columns = [{
-    title: '昵称',
-    dataIndex: 'nickName',
-    key: 'nickName',
-    align:'center',
-    render:(nickName,record)=><><Avatar src={record.avatarUrl}/>
-    <Divider type="vertical" />
-    <span>{nickName}</span></>
-  }, {
-    title: '性别',
-    dataIndex: 'gender',
-    key: 'gender',
-    align:'center',
-    render:(gender)=><span>{parseInt(gender)===0?'女':'男'}</span>
-  }, {
-    title: '国家',
-    dataIndex: 'country',
-    key: 'country',
-    align:'center'
-  }, {
-    title: '省份',
-    key: 'province',
-    dataIndex: 'province',
-    align:'center'
-  }, {
-    title: '城市',
-    key: 'city',
-    dataIndex:'city',
-    align:'center'
-  },{
-      title: 'openid',
-      key: 'openid',
-      dataIndex:'openid',
-      align:'center'
-    },{
-        title: '操作',
-        key: 'action',
-        align:'center',
-        render: () => (
-          <Button type='danger' onClick={showConfirm}>
-            删除
-          </Button>
-        ),
-      }];
+import {Avatar,Button,Divider,Table,Popconfirm} from 'antd'
+import {connect} from 'react-redux'
+import axios from 'axios'
 class Normal extends Component{
+    constructor(){
+        super()
+        this.state={
+            userData:[]
+        }
+        this.columns=[{
+            title: '昵称',
+            dataIndex: 'nickName',
+            key: 'nickName',
+            align:'center',
+            render:(nickName,record)=><><Avatar src={record.avatarUrl}/>
+            <Divider type="vertical" />
+            <span>{nickName}</span></>
+          }, {
+            title: '性别',
+            dataIndex: 'gender',
+            key: 'gender',
+            align:'center',
+            render:(gender)=><span>{parseInt(gender)===0?'女':'男'}</span>
+          }, {
+            title: '国家',
+            dataIndex: 'country',
+            key: 'country',
+            align:'center'
+          }, {
+            title: '省份',
+            key: 'province',
+            dataIndex: 'province',
+            align:'center'
+          }, {
+            title: '城市',
+            key: 'city',
+            dataIndex:'city',
+            align:'center'
+          },{
+              title: 'openid',
+              key: 'openid',
+              dataIndex:'openid',
+              align:'center'
+            }];
+    }
+    deleteUser(openid){
+        let that=this;
+        let fd=new FormData()
+        fd.append('openid',openid)
+        axios.post('http://www.11lang.cn/mp/deleteUser',fd).then((res)=>{
+                that.setState({
+                userData:that.state.userData.filter((user)=>{
+                    return user.openid===openid?null:user
+                })
+            })
+        })
+    }
+    componentDidMount() {
+        this.setState({
+            userData:this.props.userData
+        })
+    }
     render(){
-        let data=this.props.userData.map((user)=>{
+        if(this.props.user.level>=2&&this.columns.length===6){
+            this.columns.push({
+                title: '操作',
+                key: 'action',
+                align:'center',
+                render: (action,record) => (
+                  <Popconfirm title='确定删除吗' onConfirm={() => this.deleteUser(record.openid)}>
+                    <Button type='danger'>删除</Button>
+                  </Popconfirm>
+                ),
+            })
+        }
+        let userData=this.state.userData.length!==0?this.state.userData:this.props.userData
+        let data=userData.map((user)=>{
             return Object.assign({},user,{key:user.openid})
         });
         return (
             <>
-                <Table columns={columns} dataSource={data} />
+                <Table columns={this.columns} dataSource={data} />
             </>
         )
     }
 }
-export default Normal
+function select(state){
+    return {
+        user:state.userInfo
+    }
+}
+export default connect(select)(Normal)
