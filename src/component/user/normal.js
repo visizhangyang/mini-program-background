@@ -1,5 +1,20 @@
 import React, { Component } from 'react';
-import {Avatar,Button,Divider,Table} from 'antd'
+import {Avatar,Button,Divider,Table,Modal} from 'antd'
+const confirm = Modal.confirm;
+function showConfirm() {
+    confirm({
+      title: '确认删除此用户吗',
+      content: '你将要删除选择的用户，请谨慎操作',
+      okText:"确认",
+      cancelText:"取消",
+      onOk() {
+        console.log('OK');
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  }
 const columns = [{
     title: '昵称',
     dataIndex: 'nickName',
@@ -39,7 +54,7 @@ const columns = [{
         key: 'action',
         align:'center',
         render: () => (
-          <Button type='danger'>
+          <Button type='danger' onClick={showConfirm}>
             删除
           </Button>
         ),

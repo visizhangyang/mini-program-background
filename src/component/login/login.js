@@ -78,7 +78,7 @@ class Login extends Component {
             <div className='login'>
                 <Input addonBefore="用户名"  onChange={this.userNameChange}></Input>
                 <Input addonBefore="密码"  onChange={this.passwordChange} type='password'></Input>
-                <Button type='primary' block onClick={(e)=>this.login(e)}>登陆</Button>
+                <Button type='primary' block onClick={this.login}>登陆</Button>
             </div>
             
             {this.state.showAlert?<Alert message='Error' description={this.state.description} type='error' showIcon></Alert>:null}
