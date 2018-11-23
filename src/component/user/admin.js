@@ -8,7 +8,6 @@ class Admin extends Component{
     constructor(props) {
         super(props);
         this.state={
-            admin:[],
             visible:false,
             level:1,
             id:0
@@ -32,11 +31,9 @@ class Admin extends Component{
             fd.append('id',id)
             axios.post('http://www.11lang.cn/mp/deleteAdmin',fd).then((res)=>{
                 that.setState({
-                visible:false,
-                admin:that.state.admin.filter((ad)=>{
-                    return ad.id===id?null:ad
-                })
+                visible:false
             })
+            that.props.deleteAdmin(id)
         })
           },
           onCancel() {
@@ -50,11 +47,9 @@ class Admin extends Component{
         fd.append('id',this.state.id)
         axios.post('http://www.11lang.cn/mp/modifyLevel',fd).then((res)=>{
             this.setState({
-                visible:false,
-                admin:this.props.admin.map((ad,index)=>{
-                    return ad.id===this.state.id?Object.assign({},ad,{level:this.state.level}):ad
-                })
+                visible:false
             })
+            this.props.modifyLevel(this.state.id,this.state.level)
         })
     }
     
@@ -68,21 +63,14 @@ class Admin extends Component{
             level:parseInt(level)
         })
     }
-    componentDidUpdate(prevProps) {
-        if(prevProps.admin!==this.props.admin){
-            this.setState({
-                admin:this.props.admin
-            })
-        }
-    }
     
     render(){
-        let admin=this.state.admin.length!==0?this.state.admin:this.props.admin
+        let admin=this.props.admin
         let cards=admin.map((admin,index)=>{
             return <Card
                     style={{ width: 300,margin:20,display:'inline-block'}}
-                    actions={[<Icon type="delete" onClick={()=>this.showConfirm(admin.id)}/>, 
-                    <div onClick={()=>this.showModal(admin.id)}>{admin.level}</div>]}
+                    actions={this.props.user.level===3?[<Icon type="delete" onClick={()=>this.showConfirm(admin.id)}/>, 
+                    <div onClick={()=>this.showModal(admin.id)}>{admin.level}</div>]:null}
                     key={index}>
                     <Meta
                     avatar={<Icon type='user' />}
@@ -112,7 +100,13 @@ class Admin extends Component{
         )
     }
 }
-export default Admin
+function select(state){
+    return {
+        isLogin:state.isLogin,
+        user:state.userInfo
+    }
+}
+export default connect(select)(Admin)
 
 
 

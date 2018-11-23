@@ -6,7 +6,6 @@ class Normal extends Component{
     constructor(){
         super()
         this.state={
-            userData:[]
         }
         this.columns=[{
             title: '昵称',
@@ -49,11 +48,7 @@ class Normal extends Component{
         let fd=new FormData()
         fd.append('openid',openid)
         axios.post('http://www.11lang.cn/mp/deleteUser',fd).then((res)=>{
-                that.setState({
-                userData:that.state.userData.filter((user)=>{
-                    return user.openid===openid?null:user
-                })
-            })
+               that.props.deleteUser(openid)
         })
     }
     componentDidMount() {
@@ -74,7 +69,7 @@ class Normal extends Component{
                 ),
             })
         }
-        let userData=this.state.userData.length!==0?this.state.userData:this.props.userData
+        let userData=this.props.userData
         let data=userData.map((user)=>{
             return Object.assign({},user,{key:user.openid})
         });
