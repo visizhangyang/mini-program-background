@@ -80,5 +80,23 @@ class Spanner{
             })
         })
     }
+    copy(options){
+        var src=option.src;
+        var target=options.target;
+        var rules=options.rules;
+        if(!src||!target){
+            throw new Error('源表或目标表名不可为空')
+        }
+        var sql=`insert into ${target} select * from ${src} ${rules}`
+        var that=this;
+        return new Promise(function(resolve,reject){
+            that.connection.query(sql,function(err,res){
+                if(err){
+                    reject(err)
+                }
+                resolve(res)
+            })
+        })
+    }
 }
 module.exports=Spanner;

@@ -2,6 +2,14 @@
     height: 100%;
     display: flex;
     .loveMain{
-        flex-grow: 1
+        flex-grow: 1;
+        tr{
+            max-height: 65px;
+        }
+        .loveContent{
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
     }
 }

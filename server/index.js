@@ -37,11 +37,11 @@ router.get('/mp/getUser',async (ctx)=>{
 })//获取用户
 router.get('/mp/appoint',async (ctx)=>{
     var appoint=await spanner.query({tableName:'appoint'})
-    ctx.body=appoint
+    ctx.body={appoint}
 })//获取邀约
 router.get('/mp/love',async (ctx)=>{
-    var appoint=await spanner.query({tableName:'love'})
-    ctx.body=appoint
+    var love=await spanner.query({tableName:'love'})
+    ctx.body={love}
 })//获取表白
 router.get('/mp/mes',async (ctx)=>{
     var appoint=await spanner.query({tableName:'mes'})
@@ -61,13 +61,79 @@ router.post('/mp/deleteAdmin',async (ctx)=>{
         rules:`where id=${ctx.request.body.id}`
     })
     ctx.body=res
-})
+})//删除管理员
 router.post('/mp/deleteUser',async (ctx)=>{
     var res=await spanner.delete({
         tableName:'userInfo',
         rules:`where openid='${ctx.request.body.openid}'`
     })
     ctx.body=res
-})
+})//删除用户
+
+router.post('/mp/publishLove',async (ctx)=>{
+    try{
+        var res=await spanner.update({
+            tableName:"love",
+            fields:['publish'],
+            values:[1],
+            rules:`where id=${ctx.request.body.id}`
+        })
+        ctx.body=res
+    }catch(e){
+        ctx.body=e
+    }
+})//发布表白
+router.post('/mp/deleteLove',async (ctx)=>{
+    try{
+        var res=await spanner.delete({
+            tableName:'love',
+            rules:`where id=${ctx.request.body.id}`
+        })
+        ctx.body=res
+    }catch(e){
+        ctx.body=e
+    }
+})//删除表白
+router.post('/mp/getLoveExtra',async (ctx)=>{
+    try{
+        var visitor=await spanner.query({
+            tableName:'love_visitor',
+            fields:['distinct *'],
+            rules:`where id=${ctx.request.body.id}`
+        })
+        var comment=await spanner.query({
+            tableName:'love_comment',
+            rules:`where id=${ctx.request.body.id}`
+        })
+        ctx.body={visitor,comment}
+    }catch(e){
+        ctx.body=e
+    }
+})//获取表白访客和评论信息
+
+router.post('/mp/publishAppoint',async (ctx)=>{
+    try{
+        var res=await spanner.update({
+            tableName:"appoint",
+            fields:['publish'],
+            values:[1],
+            rules:`where id=${ctx.request.body.id}`
+        })
+        ctx.body=res
+    }catch(e){
+        ctx.body=e
+    }
+})//发布表白
+router.post('/mp/deleteAppoint',async (ctx)=>{
+    try{
+        var res=await spanner.delete({
+            tableName:'appoint',
+            rules:`where id=${ctx.request.body.id}`
+        })
+        ctx.body=res
+    }catch(e){
+        ctx.body=e
+    }
+})//删除表白
 app.use(router.routes()).use(router.allowedMethods())
 app.listen(5000)
