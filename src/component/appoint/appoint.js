@@ -34,7 +34,7 @@ class Appoint extends Component{
         fd.append('id',id)
         axios.post('http://www.11lang.cn/mp/publishAppoint',fd).then(()=>{
             this.setState({
-                publishAppoint:[this.state.allAppoint.find((lo)=>lo.id===id),...this.state.allAppoint]
+                publishAppoint:[this.state.allAppoint.find((lo)=>lo.id===id),...this.state.publishAppoint]
             })
         })
     }
@@ -43,7 +43,7 @@ class Appoint extends Component{
         fd.append('id',id)
         axios.post('http://www.11lang.cn/mp/deleteAppoint',fd).then(()=>{
             this.setState({
-                allAppoint:this.state.allAppoint.filter((appoint)=>appoint.id===id?null:lo),
+                allAppoint:this.state.allAppoint.filter((appoint)=>appoint.id===id?null:appoint),
                 publishLove:this.state.allAppoint.filter((appoint)=>appoint.publish===1)
             })
         })

@@ -42,8 +42,8 @@ class PublishAppoint extends Component{
             align:'center'
           }];
     render(){
-        let data=this.props.publishAppoint.map((user)=>{
-            return Object.assign({},user,{key:user.openid})
+        let data=this.props.publishAppoint.map((appoint,index)=>{
+            return Object.assign({},appoint,{key:appoint.openid+index})
         });
         return (
             <>

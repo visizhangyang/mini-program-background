@@ -71,8 +71,8 @@ class All extends Component{
                 </>
               })
         } */
-        let data=this.props.all.map((user)=>{
-            return Object.assign({},user,{key:user.openid})
+        let data=this.props.all.map((appoint,index)=>{
+            return Object.assign({},appoint,{key:appoint.openid+index})
         });
         return (
             <>

@@ -34,7 +34,7 @@ class Love extends Component{
         fd.append('id',id)
         axios.post('http://www.11lang.cn/mp/publishLove',fd).then(()=>{
             this.setState({
-                publishLove:[this.state.allLove.find((lo)=>lo.id===id),...this.state.allLove]
+                publishLove:[this.state.allLove.find((lo)=>lo.id===id),...this.state.publishLove]
             })
         })
     }

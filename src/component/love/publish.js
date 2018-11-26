@@ -86,8 +86,8 @@ class Publish extends Component{
         })
     }
     render(){
-        let data=this.props.publishLove.map((user)=>{
-            return Object.assign({},user,{key:user.openid})
+        let data=this.props.publishLove.map((user,index)=>{
+            return Object.assign({},user,{key:user.openid+index})
         });
         return (
             <>
