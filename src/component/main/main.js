@@ -15,9 +15,9 @@ class Main extends Component{
         this.logout=this.logout.bind(this)
     }
     componentDidMount (){
-      /* if(!this.props.isLogin){
+      if(!this.props.isLogin){
           this.props.history.push('/')
-      } */
+      } 
     }
     logout(){
         this.props.logout(false);

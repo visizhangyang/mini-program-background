@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Avatar,Button,Divider,Table} from 'antd'
+import {Avatar,Button,Divider,Table,Tooltip} from 'antd'
 class All extends Component{
     columns=[{
         title: '昵称',
@@ -23,7 +23,8 @@ class All extends Component{
         title: '详情',
         key: 'detail',
         dataIndex: 'detail',
-        align:'center'
+        align:'center',
+        render:(content)=><Tooltip title={content} placement='bottom'><span >{`${content.slice(0,8)}`}</span></Tooltip>
       }, {
         title: '时间',
         key: 'appointTime',
