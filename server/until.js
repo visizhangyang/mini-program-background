@@ -30,7 +30,7 @@ class Spanner{
             throw new Error('表名不可为空')
         }
         fields.forEach(function(field,index){
-            setStr+=`${field}=${values[index]},`
+            setStr+=`${field}='${values[index]}',`
         })
         var sql=`update ${tableName} set ${setStr.slice(0,setStr.length-1)} ${rules}`
         var that=this;
@@ -48,11 +48,13 @@ class Spanner{
         var fields=options.fields;
         var values=options.values;
         var fieldStr=`(${fields.join(',')})`
-        var valuesStr=`(${Array.of(values.length).join('?')})`
+        var valuesStr=values.map(function(value,index){
+            return '?'
+        })
         if(!tableName){
             throw new Error('表名不可为空')
         }
-        var sql=`insert into ${tableName} ${fieldStr} ${valuesStr}`
+        var sql=`insert into ${tableName} ${fieldStr} values(${valuesStr.join(',')})`
         var that=this;
         return new Promise(function(resolve,reject){
             that.connection.query(sql,values,function(err,res){
