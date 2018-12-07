@@ -15,9 +15,9 @@ class Main extends Component{
         this.logout=this.logout.bind(this)
     }
     componentDidMount (){
-      if(!this.props.isLogin){
+       if(!this.props.isLogin){
           this.props.history.push('/')
-      } 
+      }  
     }
     logout(){
         this.props.logout(false);
@@ -50,7 +50,7 @@ class Main extends Component{
                         <Link to={`${this.props.match.url}/message`}>信息</Link>
                     </nav>
                     <Dropdown overlay={menu}>
-                        <a className="ant-dropdown-link" href="#">
+                        <a className="ant-dropdown-link">
                         {this.props.user.userName}<Icon type="down" />
                         </a>
                     </Dropdown>
