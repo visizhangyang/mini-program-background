@@ -1,8 +1,12 @@
 const Koa=require('koa')
 const koaBody = require('koa-body');
 const router=require('./routes/route')
+const serect=require('./sign').serect
 var app=new Koa()
 const logUtil = require('./log');
+app.use(jwtKoa({serect}).unless({
+  path:[/^\/mp\/login/]
+}))
 app.use(async (ctx, next) => {
   const start = new Date();
   var ms;

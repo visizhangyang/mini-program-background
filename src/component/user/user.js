@@ -3,6 +3,7 @@ import LeftMenu from '../until/menu'
 import Admin from './admin'
 import Normal from './normal'
 import axios from 'axios'
+import {connect} from 'react-redux'
 import './user.scss'
 class User extends Component{
     constructor(){
@@ -17,7 +18,13 @@ class User extends Component{
         this.toggle=this.toggle.bind(this)
     }
     componentDidMount(){
-        axios.get('http://www.11lang.cn/mp/getUser').then((res)=>{
+        let that=this;
+        axios.get('http://www.11lang.cn/mp/getUser',{
+            headers:{
+                "Authorization":that.props.user.token
+            }
+        }
+        ).then((res)=>{
             this.setState({
                 admin:res.data.manager,
                 userData:res.data.user,
@@ -66,4 +73,9 @@ class User extends Component{
         )
     }
 }
-export default User
+function select(state){
+    return {
+        user:state.userInfo
+    }
+}
+export default connect(select)(User)
