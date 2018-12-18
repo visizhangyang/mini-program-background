@@ -1,10 +1,10 @@
 const Koa=require('koa')
 const koaBody = require('koa-body');
 const router=require('./routes/route')
-const serect=require('./sign').serect
+const secret=require('./sign').secret
 var app=new Koa()
 const logUtil = require('./log');
-app.use(jwtKoa({serect}).unless({
+app.use(jwtKoa({secret:secret,passthrough: true}).unless({
   path:[/^\/mp\/login/]
 }))
 app.use(async (ctx, next) => {
