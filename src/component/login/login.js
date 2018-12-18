@@ -44,6 +44,7 @@ class Login extends Component {
                 default:
                 that.props.login(true)
                 that.props.setUser(res.data)
+                localStorage.setItem('token',res.data.token)
                 that.props.history.push('/main/user')
                 return;
             }

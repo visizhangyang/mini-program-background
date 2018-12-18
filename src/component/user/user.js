@@ -21,7 +21,7 @@ class User extends Component{
         let that=this;
         axios.get('http://www.11lang.cn/mp/getUser',{
             headers:{
-                "Authorization":that.props.user.token
+                "Authorization":`Bearer ${localStorage.getItem('token')}`
             }
         }
         ).then((res)=>{
@@ -30,6 +30,8 @@ class User extends Component{
                 userData:res.data.user,
                 dataGet:true
             })
+        }).catch(function(err){
+            alert(err)
         })
     }
     toggle(key){

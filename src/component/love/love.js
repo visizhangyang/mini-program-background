@@ -3,6 +3,7 @@ import LeftMenu from '../until/menu'
 import All from './all'
 import Publish from './publish'
 import axios from 'axios'
+import instance from '../../axiosConf'
 import './love.scss'
 class Love extends Component{
     constructor(){
@@ -17,7 +18,7 @@ class Love extends Component{
         this.toggle=this.toggle.bind(this)
     }
     componentDidMount(){
-        axios.get('http://www.11lang.cn/mp/love').then((res)=>{
+        instance.get('http://www.11lang.cn/mp/love').then((res)=>{
             this.setState({
                 allLove:res.data.love,
                 publishLove:res.data.love.filter((lo)=>lo.publish===1),
