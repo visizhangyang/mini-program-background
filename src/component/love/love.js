@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import LeftMenu from '../until/menu'
 import All from './all'
 import Publish from './publish'
-import axios from 'axios'
 import instance from '../../axiosConf'
 import './love.scss'
 class Love extends Component{
@@ -19,11 +18,13 @@ class Love extends Component{
     }
     componentDidMount(){
         instance.get('http://www.11lang.cn/mp/love').then((res)=>{
+            
             this.setState({
                 allLove:res.data.love,
                 publishLove:res.data.love.filter((lo)=>lo.publish===1),
                 dataGet:true
             })
+            
         })
     }
     publish=(id)=>{
@@ -33,7 +34,7 @@ class Love extends Component{
         }
         let fd=new FormData();
         fd.append('id',id)
-        axios.post('http://www.11lang.cn/mp/publishLove',fd).then(()=>{
+        instance.post('http://www.11lang.cn/mp/publishLove',fd).then(()=>{
             this.setState({
                 publishLove:[this.state.allLove.find((lo)=>lo.id===id),...this.state.publishLove]
             })
@@ -42,7 +43,7 @@ class Love extends Component{
     deleteLove=(id)=>{
         let fd=new FormData();
         fd.append('id',id)
-        axios.post('http://www.11lang.cn/mp/deleteLove',fd).then(()=>{
+        instance.post('http://www.11lang.cn/mp/deleteLove',fd).then(()=>{
             this.setState({
                 allLove:this.state.allLove.filter((lo)=>lo.id===id?null:lo),
                 publishLove:this.state.allLove.filter((lo)=>lo.publish===1)

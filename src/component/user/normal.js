@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Avatar,Button,Divider,Table,Popconfirm} from 'antd'
 import {connect} from 'react-redux'
-import axios from 'axios'
+import instance from '../../axiosConf'
 class Normal extends Component{
     constructor(){
         super()
@@ -47,7 +47,7 @@ class Normal extends Component{
         let that=this;
         let fd=new FormData()
         fd.append('openid',openid)
-        axios.post('http://www.11lang.cn/mp/deleteUser',fd).then((res)=>{
+        instance.post('http://www.11lang.cn/mp/deleteUser',fd).then((res)=>{
                that.props.deleteUser(openid)
         })
     }

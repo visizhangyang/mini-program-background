@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Icon,Modal, Menu} from 'antd';
-import axios from 'axios'
+import instance from '../../axiosConf'
 import {connect} from 'react-redux'
 const { Meta } = Card;
 const confirm = Modal.confirm;
@@ -29,7 +29,7 @@ class Admin extends Component{
           onOk() {
             let fd=new FormData()
             fd.append('id',id)
-            axios.post('http://www.11lang.cn/mp/deleteAdmin',fd).then((res)=>{
+            instance.post('http://www.11lang.cn/mp/deleteAdmin',fd).then((res)=>{
                 that.setState({
                 visible:false
             })
@@ -45,7 +45,7 @@ class Admin extends Component{
         let fd=new FormData()
         fd.append('level',this.state.level)
         fd.append('id',this.state.id)
-        axios.post('http://www.11lang.cn/mp/modifyLevel',fd).then((res)=>{
+        instance.post('http://www.11lang.cn/mp/modifyLevel',fd).then((res)=>{
             this.setState({
                 visible:false
             })

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import LeftMenu from '../until/menu'
 import UserMes from './user'
-import axios from 'axios'
+import instance from '../../axiosConf'
 import Sys from './sys'
 import {connect} from 'react-redux'
 import './message.scss'
@@ -18,7 +18,7 @@ class Message extends Component{
         this.toggle=this.toggle.bind(this)
     }
     componentDidMount(){
-        axios.get('http://www.11lang.cn/mp/mes').then((res)=>{
+        instance.get('http://www.11lang.cn/mp/mes').then((res)=>{
             this.setState({
                 mes:res.data.mes,
                 dataGet:true
@@ -33,7 +33,7 @@ class Message extends Component{
     deleteMes=(id)=>{
         let fd=new FormData();
         fd.append('id',id)
-        axios.post('http://www.11lang.cn/mp/deleteMes',fd).then(()=>{
+        instance.post('http://www.11lang.cn/mp/deleteMes',fd).then(()=>{
             this.setState({
                 mes:this.state.mes.filter((lo)=>lo.id===id?null:lo),
             })
@@ -63,7 +63,7 @@ class Message extends Component{
         fd.append('toWho',toWho)
         fd.append('content',mes)
         fd.append('writeTime',writeTime)
-        axios.post('http://www.11lang.cn/mp/addMes',fd).then((res)=>{
+        instance.post('http://www.11lang.cn/mp/addMes',fd).then((res)=>{
             that.setState({
                 mes:[...that.state.mes,{
                     nickName:nickName,

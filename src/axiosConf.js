@@ -1,12 +1,18 @@
 import axios from 'axios'
-let instance=axios.create({
-    headers:{
-        "Authorization":`Bearer ${localStorage.getItem('token')}`
-    }
+import createHashHistory from 'history/createHashHistory'
+const history=createHashHistory({
+    basename:''
+})
+let instance=axios.create()
+instance.interceptors.request.use(function(config){
+    config.headers.Authorization=`Bearer ${localStorage.getItem('token')}`
+    return config
 })
 instance.interceptors.response.use(function(res){
-    if(res.status===401){
-        alert('未验证')
+    return res
+},function(err){
+    if(err){
+        history.push('/')
     }
 })
 export default instance

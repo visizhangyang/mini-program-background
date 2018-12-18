@@ -1,3 +1,3 @@
 module.exports={
-    serect:'mpback'
+    secret:'mpback'
 }

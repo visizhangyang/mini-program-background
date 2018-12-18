@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import LeftMenu from '../until/menu'
 import Admin from './admin'
 import Normal from './normal'
-import axios from 'axios'
+import instance from '../../axiosConf'
 import {connect} from 'react-redux'
 import './user.scss'
 class User extends Component{
@@ -19,19 +19,17 @@ class User extends Component{
     }
     componentDidMount(){
         let that=this;
-        axios.get('http://www.11lang.cn/mp/getUser',{
+        instance.get('http://www.11lang.cn/mp/getUser',{
             headers:{
                 "Authorization":`Bearer ${localStorage.getItem('token')}`
             }
-        }
-        ).then((res)=>{
+        }).then((res)=>{
             this.setState({
                 admin:res.data.manager,
                 userData:res.data.user,
                 dataGet:true
             })
         }).catch(function(err){
-            alert(err)
         })
     }
     toggle(key){

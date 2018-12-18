@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Avatar,Button,Divider,Table,Tooltip,Drawer} from 'antd'
 import LoveDrawer from './drawer'
-import axios from 'axios'
+import instance from '../../axiosConf'
 class Publish extends Component{
     state={
         showDrawer:false,
@@ -77,7 +77,7 @@ class Publish extends Component{
     getVisitor=(id)=>{
         let fd=new FormData()
         fd.append('id',id)
-        axios.post('http://www.11lang.cn/mp/getLoveExtra',fd).then((res)=>{
+        instance.post('http://www.11lang.cn/mp/getLoveExtra',fd).then((res)=>{
             this.setState({
                 data:res.data,
                 dataGet:true,
