@@ -45,9 +45,10 @@ class All extends Component{
             key: 'action',
             align:'center',
             render: (action,record) => <>
-                <Button type='primary' onClick={()=>this.props.publish(record.id)}>
-                发布
-                </Button>
+               
+                {!record.publish?<Button type='primary' onClick={()=>this.props.publish(record.id)}>
+                    发布
+                    </Button>:null}
                 <Divider type="vertical" />
                 <Button type='danger' onClick={()=>this.props.deleteAppoint(record.id)}>
                 删除

@@ -42,7 +42,7 @@ class PublishAppoint extends Component{
             align:'center'
           }];
     render(){
-        let data=this.props.publishAppoint.map((appoint,index)=>{
+        let data=this.props.allAppoint.filter((appoint)=>appoint.publish===1).map((appoint,index)=>{
             return Object.assign({},appoint,{key:appoint.openid+index})
         });
         return (
