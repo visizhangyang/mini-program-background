@@ -21,22 +21,27 @@ class Love extends Component{
             
             this.setState({
                 allLove:res.data.love,
-                publishLove:res.data.love.filter((lo)=>lo.publish===1),
+                //publishLove:res.data.love.filter((lo)=>lo.publish===1),
                 dataGet:true
             })
             
         })
     }
     publish=(id)=>{
-        if(this.state.publishLove.find((lo)=>lo.id===id)){
+        /* if(this.state.publishLove.find((lo)=>lo.id===id)){
             alert('此条已经发布')
             return
-        }
+        } */
         let fd=new FormData();
         fd.append('id',id)
         instance.post('http://www.11lang.cn/mp/publishLove',fd).then(()=>{
             this.setState({
-                publishLove:[this.state.allLove.find((lo)=>lo.id===id),...this.state.publishLove]
+                allLove:this.state.allLove.map((lo)=>{
+                    return lo.id===id?Object.assign({},lo,{
+                        publish:1
+                    }):lo
+                }),
+                //publishLove:[this.state.allLove.find((lo)=>lo.id===id),...this.state.publishLove]
             })
         })
     }
@@ -46,7 +51,7 @@ class Love extends Component{
         instance.post('http://www.11lang.cn/mp/deleteLove',fd).then(()=>{
             this.setState({
                 allLove:this.state.allLove.filter((lo)=>lo.id===id?null:lo),
-                publishLove:this.state.allLove.filter((lo)=>lo.publish===1)
+                //publishLove:this.state.allLove.filter((lo)=>lo.publish===1)
             })
         })
     }
@@ -61,7 +66,7 @@ class Love extends Component{
                 <LeftMenu items={this.state.items} toggle={this.toggle}></LeftMenu>
                 <div className='loveMain'>
                     {this.state.dataGet?(this.state.activeKey==='0'?
-                        <All allLove={this.state.allLove} publish={this.publish} deleteLove={this.deleteLove}></All>:<Publish publishLove={this.state.publishLove}></Publish>):null
+                        <All allLove={this.state.allLove} publish={this.publish} deleteLove={this.deleteLove}></All>:<Publish allLove={this.state.allLove}></Publish>):null
                     }
                 </div>
             </div>
