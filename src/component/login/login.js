@@ -4,6 +4,7 @@ import {withRouter} from 'react-router'
 import {connect} from 'react-redux'
 import {login,setUser} from '../../store/action'
 import axios from 'axios'
+import {LOGIN} from '../../api/api'
 import './login.scss';
 class Login extends Component {
     constructor(){
@@ -32,7 +33,7 @@ class Login extends Component {
         let fd=new FormData();
         fd.append('userName',userName)
         fd.append('password',password)
-        axios.post('http://www.11lang.cn/mp/login',fd)
+        axios.post(LOGIN,fd)
         .then(function(res){
             switch(res.data){
                 case 0:
@@ -72,7 +73,6 @@ class Login extends Component {
         })
     }
     render() {
-      let userName=React.createRef()
       return (
         <div className='loginCon' onClick={this.hideAlert}>
             <h1>小程序后台管理系统</h1>

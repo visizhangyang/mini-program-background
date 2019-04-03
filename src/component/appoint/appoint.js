@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import LeftMenu from '../until/menu'
-import instance from '../../axiosConf'
 import './apponit.scss'
 import All from './allAppoint'
 import PublishAppoint from './publishAppoint'
+import {GET_APPOINT,PUBLISH_APPOINT,DELETE_APPOINT} from '../../api/api'
+import fetch from '../../api/fetch'
 class Appoint extends Component{
     constructor(){
         super();
@@ -17,9 +18,16 @@ class Appoint extends Component{
         this.toggle=this.toggle.bind(this)
     }
     componentDidMount(){
-        instance.get('http://www.11lang.cn/mp/appoint').then((res)=>{
+        /* instance.get('http://www.11lang.cn/mp/appoint').then((res)=>{
             this.setState({
                 allAppoint:res.data.appoint,
+                //publishAppoint:res.data.appoint.filter((appoint)=>appoint.publish===1),
+                dataGet:true
+            })
+        }) */
+        fetch(GET_APPOINT).then((res)=>{
+            this.setState({
+                allAppoint:res.appoint,
                 //publishAppoint:res.data.appoint.filter((appoint)=>appoint.publish===1),
                 dataGet:true
             })
@@ -32,7 +40,17 @@ class Appoint extends Component{
         } */
         let fd=new FormData();
         fd.append('id',id)
-        instance.post('http://www.11lang.cn/mp/publishAppoint',fd).then(()=>{
+        /* instance.post('http://www.11lang.cn/mp/publishAppoint',fd).then(()=>{
+            this.setState({
+                allAppoint:this.state.allAppoint.map((appoint)=>{
+                    return appoint.id===id?Object.assign({},appoint,{
+                        publish:1
+                    }):appoint
+                }),
+                //publishAppoint:[this.state.allAppoint.find((appoint)=>appoint.id===id),...this.state.publishAppoint]
+            })
+        }) */
+        fetch(PUBLISH_APPOINT,fd).then(()=>{
             this.setState({
                 allAppoint:this.state.allAppoint.map((appoint)=>{
                     return appoint.id===id?Object.assign({},appoint,{
@@ -46,7 +64,13 @@ class Appoint extends Component{
     deleteAppoint=(id)=>{
         let fd=new FormData();
         fd.append('id',id)
-        instance.post('http://www.11lang.cn/mp/deleteAppoint',fd).then(()=>{
+        /* instance.post('http://www.11lang.cn/mp/deleteAppoint',fd).then(()=>{
+            this.setState({
+                allAppoint:this.state.allAppoint.filter((appoint)=>appoint.id===id?null:appoint),
+                //publishappointve:this.state.allAppoint.filter((appoint)=>appoint.publish===1)
+            })
+        }) */
+        fetch(DELETE_APPOINT,fd).then(()=>{
             this.setState({
                 allAppoint:this.state.allAppoint.filter((appoint)=>appoint.id===id?null:appoint),
                 //publishappointve:this.state.allAppoint.filter((appoint)=>appoint.publish===1)

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import LeftMenu from '../until/menu'
 import Admin from './admin'
 import Normal from './normal'
-import instance from '../../axiosConf'
 import {connect} from 'react-redux'
+import {GET_USER} from '../../api/api'
+import fetch from '../../api/fetch'
 import './user.scss'
 class User extends Component{
     constructor(){
@@ -15,11 +16,16 @@ class User extends Component{
             userData:[],
             dataGet:false
         }
-        this.toggle=this.toggle.bind(this)
     }
     componentDidMount(){
-        let that=this;
-        instance.get('http://www.11lang.cn/mp/getUser',{
+        fetch(GET_USER).then((res)=>{
+            this.setState({
+                admin:res.manager,
+                userData:res.user,
+                dataGet:true
+            })
+        })
+        /* instance.get(GET_USER,{
             headers:{
                 "Authorization":`Bearer ${localStorage.getItem('token')}`
             }
@@ -30,9 +36,9 @@ class User extends Component{
                 dataGet:true
             })
         }).catch(function(err){
-        })
+        }) */
     }
-    toggle(key){
+    toggle=(key)=>{
         this.setState({
             activeKey:key
         })

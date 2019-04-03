@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {Avatar,Button,Divider,Table,Popconfirm,Modal,Input} from 'antd'
 import {connect} from 'react-redux'
-import instance from '../../axiosConf'
+import {DELETE_USER,ADD_DETAIL_MES} from '../../api/api'
+import fetch from '../../api/fetch'
 class Normal extends Component{
     constructor(){
         super()
@@ -47,16 +48,16 @@ class Normal extends Component{
             }];
     }
     deleteUser(openid){
-        let that=this;
         let fd=new FormData()
         fd.append('openid',openid)
-        instance.post('http://www.11lang.cn/mp/deleteUser',fd).then((res)=>{
-               that.props.deleteUser(openid)
+        fetch(DELETE_USER,fd).then(()=>{
+            this.props.deleteUser(openid)
         })
+        /* instance.post('http://www.11lang.cn/mp/deleteUser',fd).then((res)=>{
+               that.props.deleteUser(openid)
+        }) */
     }
-    contactUser(openid){
-
-    }
+    
     showModal=(id)=>{
         this.setState(()=>{
             return {
@@ -71,7 +72,6 @@ class Normal extends Component{
         })
     }
     addMes=()=>{
-        let that=this;
         let date=new Date()
         let year=date.getFullYear();
         let month=date.getMonth()+1;
@@ -92,11 +92,16 @@ class Normal extends Component{
         fd.append('toWho',this.state.toWho)
         fd.append('content',this.state.mes)
         fd.append('writeTime',writeTime)
-        instance.post('http://www.11lang.cn/mp/addDetailMes',fd).then((res)=>{
-            that.setState({
+        fetch(ADD_DETAIL_MES,fd).then(()=>{
+            this.setState({
                 showModal:false
             })
         })
+        /* instance.post('http://www.11lang.cn/mp/addDetailMes',fd).then((res)=>{
+            that.setState({
+                showModal:false
+            })
+        }) */
     }
     handleChange=(e)=>{
         this.setState({

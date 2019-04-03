@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import {Avatar,Button,Divider,Table,Tooltip,Drawer} from 'antd'
+import {Avatar,Button,Divider,Table,Tooltip} from 'antd'
 import LoveDrawer from './drawer'
-import instance from '../../axiosConf'
+import {GET_LOVE_EXTRA} from '../../api/api'
+import fetch from '../../api/fetch'
 class Publish extends Component{
     state={
         showDrawer:false,
@@ -77,12 +78,19 @@ class Publish extends Component{
     getVisitor=(id)=>{
         let fd=new FormData()
         fd.append('id',id)
-        instance.post('http://www.11lang.cn/mp/getLoveExtra',fd).then((res)=>{
+        /* instance.post('http://www.11lang.cn/mp/getLoveExtra',fd).then((res)=>{
             this.setState({
                 data:res.data,
                 dataGet:true,
                 showDrawer:true
             })
+        }) */
+        fetch(GET_LOVE_EXTRA,fd).then((res)=>{
+          this.setState({
+            data:res.data,
+            dataGet:true,
+            showDrawer:true
+        })
         })
     }
     render(){
