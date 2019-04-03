@@ -18,12 +18,6 @@ class Love extends Component{
         this.toggle=this.toggle.bind(this)
     }
     componentDidMount(){
-        /* instance.get('http://www.11lang.cn/mp/love').then((res)=>{
-            this.setState({
-                allLove:res.data.love,
-                dataGet:true
-            })
-        }) */
         fetch(GET_LOVE).then((res)=>{
             this.setState({
                 allLove:res.love,
@@ -32,22 +26,8 @@ class Love extends Component{
         })
     }
     publish=(id)=>{
-        /* if(this.state.publishLove.find((lo)=>lo.id===id)){
-            alert('此条已经发布')
-            return
-        } */
         let fd=new FormData();
         fd.append('id',id)
-        /* instance.post('http://www.11lang.cn/mp/publishLove',fd).then(()=>{
-            this.setState({
-                allLove:this.state.allLove.map((lo)=>{
-                    return lo.id===id?Object.assign({},lo,{
-                        publish:1
-                    }):lo
-                }),
-                //publishLove:[this.state.allLove.find((lo)=>lo.id===id),...this.state.publishLove]
-            })
-        }) */
         fetch(PUBLISH_LOVE,fd).then(()=>{
             this.setState({
                 allLove:this.state.allLove.map((lo)=>{
@@ -55,19 +35,12 @@ class Love extends Component{
                         publish:1
                     }):lo
                 }),
-                //publishLove:[this.state.allLove.find((lo)=>lo.id===id),...this.state.publishLove]
             })
         })
     }
     deleteLove=(id)=>{
         let fd=new FormData();
         fd.append('id',id)
-        /* instance.post('http://www.11lang.cn/mp/deleteLove',fd).then(()=>{
-            this.setState({
-                allLove:this.state.allLove.filter((lo)=>lo.id===id?null:lo),
-                //publishLove:this.state.allLove.filter((lo)=>lo.publish===1)
-            })
-        }) */
         fetch(DELETE_LOVE,fd).then(()=>{
             this.setState({
                 allLove:this.state.allLove.filter((lo)=>lo.id===id?null:lo),

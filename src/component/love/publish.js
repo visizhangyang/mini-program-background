@@ -78,16 +78,9 @@ class Publish extends Component{
     getVisitor=(id)=>{
         let fd=new FormData()
         fd.append('id',id)
-        /* instance.post('http://www.11lang.cn/mp/getLoveExtra',fd).then((res)=>{
-            this.setState({
-                data:res.data,
-                dataGet:true,
-                showDrawer:true
-            })
-        }) */
         fetch(GET_LOVE_EXTRA,fd).then((res)=>{
           this.setState({
-            data:res.data,
+            data:res,
             dataGet:true,
             showDrawer:true
         })

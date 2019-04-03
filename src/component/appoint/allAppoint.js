@@ -56,22 +56,6 @@ class All extends Component{
             </>
           }];
     render(){
-        /* if(this.props.user.level>=2&&this.columns.length===7){
-            this.columns.push({
-                title: '操作',
-                key: 'action',
-                align:'center',
-                render: (action,record) => <>
-                    <Button type='primary' onClick={()=>this.props.publish(record.id)}>
-                    发布
-                    </Button>
-                    <Divider type="vertical" />
-                    <Button type='danger' onClick={()=>this.props.deleteAppoint(record.id)}>
-                    删除
-                    </Button>
-                </>
-              })
-        } */
         let data=this.props.all.map((appoint,index)=>{
             return Object.assign({},appoint,{key:appoint.openid+index})
         });

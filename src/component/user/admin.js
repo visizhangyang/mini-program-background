@@ -36,12 +36,6 @@ class Admin extends Component{
                 })
                 that.props.deleteAdmin(id)
             })
-            /* instance.post('http://www.11lang.cn/mp/deleteAdmin',fd).then((res)=>{
-                that.setState({
-                visible:false
-            })
-            that.props.deleteAdmin(id)
-        }) */
           },
           onCancel() {
             console.log('Cancel');
@@ -58,12 +52,6 @@ class Admin extends Component{
             })
             this.props.modifyLevel(this.state.id,this.state.level)
         })
-        /* instance.post('http://www.11lang.cn/mp/modifyLevel',fd).then((res)=>{
-            this.setState({
-                visible:false
-            })
-            this.props.modifyLevel(this.state.id,this.state.level)
-        }) */
     }
     
     handleCancel = (e) => {

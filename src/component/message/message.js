@@ -75,18 +75,6 @@ class Message extends Component{
         fd.append('toWho',toWho)
         fd.append('content',mes)
         fd.append('writeTime',writeTime)
-        /* instance.post('http://www.11lang.cn/mp/addMes',fd).then((res)=>{
-            that.setState({
-                mes:[...that.state.mes,{
-                    nickName:nickName,
-                    avatarUrl:avatarUrl,
-                    toWho:toWho,
-                    content:mes,
-                    id:res.data.insertId,
-                    writeTime:writeTime
-                }]
-            })
-        }) */
         fetch(ADD_MESSAGE,fd).then((res)=>{
             this.setState({
                 mes:[...that.state.mes,{
@@ -94,7 +82,7 @@ class Message extends Component{
                     avatarUrl:avatarUrl,
                     toWho:toWho,
                     content:mes,
-                    id:res.data.insertId,
+                    id:res.insertId,
                     writeTime:writeTime
                 }]
             })

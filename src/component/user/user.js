@@ -25,18 +25,6 @@ class User extends Component{
                 dataGet:true
             })
         })
-        /* instance.get(GET_USER,{
-            headers:{
-                "Authorization":`Bearer ${localStorage.getItem('token')}`
-            }
-        }).then((res)=>{
-            this.setState({
-                admin:res.data.manager,
-                userData:res.data.user,
-                dataGet:true
-            })
-        }).catch(function(err){
-        }) */
     }
     toggle=(key)=>{
         this.setState({

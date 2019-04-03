@@ -53,9 +53,6 @@ class Normal extends Component{
         fetch(DELETE_USER,fd).then(()=>{
             this.props.deleteUser(openid)
         })
-        /* instance.post('http://www.11lang.cn/mp/deleteUser',fd).then((res)=>{
-               that.props.deleteUser(openid)
-        }) */
     }
     
     showModal=(id)=>{
@@ -97,11 +94,6 @@ class Normal extends Component{
                 showModal:false
             })
         })
-        /* instance.post('http://www.11lang.cn/mp/addDetailMes',fd).then((res)=>{
-            that.setState({
-                showModal:false
-            })
-        }) */
     }
     handleChange=(e)=>{
         this.setState({
